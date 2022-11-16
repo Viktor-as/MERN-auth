@@ -24,12 +24,14 @@ function Dashboard() {
       navigate('/login')
     }
 
-    dispatch(getGoals())
+    if(user){
+      dispatch(getGoals())
+    }
 
     return () => {
       dispatch(reset())
     }
-  }, [user, navigate, isError, message, dispatch])
+  }, [user, isError, message, dispatch, navigate])
 
   if (isLoading) {
     return <Spinner />
