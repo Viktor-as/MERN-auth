@@ -1,4 +1,4 @@
-FROM node:16
+FROM node
 
 WORKDIR /app
 
@@ -16,6 +16,6 @@ ENV NODE_ENV = production
 
 EXPOSE 5000
 
-CMD ["npm", "run", "docker-build-webapp"]
+CMD ["npm", "start"]
 
 
