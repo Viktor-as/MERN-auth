@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
 
 * {
   margin: 0;
@@ -7,72 +8,38 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  height: 100vh;
+  font-family: "Source Sans Pro", sans-serif;
+  min-height: 100vh;
 }
 
-a {
-  text-decoration: none;
-  color: #000;
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-p {
-  line-height: 1.7;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
 }
 
-ul {
-  list-style: none;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
 }
 
-li {
-  line-height: 2.2;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
-h1,
-h2,
-h3 {
-  font-weight: 600;
-  margin-bottom: 10px;
+.app {
+  display: flex;
+  width: 100vw;
 }
 
-.container {
+.app_rightside {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 20px;
-  text-align: center;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-  border-bottom: 1px solid #e6e6e6;
-  margin-bottom: 60px;
-}
-
-.header ul {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header ul li {
-  margin-left: 20px;
-}
-
-.header ul li a {
-  display: flex;
-  align-items: center;
-}
-
-.header ul li a:hover {
-  color: #777;
-}
-
-.header ul li a svg {
-  margin-right: 5px;
 }
 
 .heading {
