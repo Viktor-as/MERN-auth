@@ -1,14 +1,11 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { toggleColorMode } from "../features/colorMode/colorModeSlice";
 import {
-  Paper,
   FormGroup,
   FormControlLabel,
   Switch,
-  Typography,
   Box,
   useTheme,
 } from "@mui/material";
@@ -20,9 +17,9 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const currentTheme = useSelector((state) => state.colorMode.mode);
-  const colors = tokens(currentTheme);
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const currentTheme = theme.palette.mode;
 
   const onLogout = () => {
     dispatch(logout());

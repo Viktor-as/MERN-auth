@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 
 import Spinner from "../components/Spinner";
 import { Columns } from "../components/TaskTableColumns";
@@ -9,7 +8,7 @@ import { AssignedTaskColumns } from "../components/AssignedTaskTableColumns";
 import PageHeading from "../components/PageHeading";
 import TabPanel from "../components/TabPanel";
 
-import { Box, useTheme, Tabs, Tab, Typography } from "@mui/material";
+import { Box, useTheme, Tabs, Tab } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 

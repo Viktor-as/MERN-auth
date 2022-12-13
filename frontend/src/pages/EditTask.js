@@ -8,8 +8,6 @@ import {
   Typography,
   Button,
   MenuItem,
-  InputLabel,
-  FormControl,
   Checkbox,
 } from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
@@ -24,7 +22,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { Formik, Field, Form } from "formik";
-import { TextField, Select, Autocomplete } from "formik-mui";
+import { TextField, Autocomplete } from "formik-mui";
 
 import PageHeading from "../components/PageHeading";
 import Spinner from "../components/Spinner";

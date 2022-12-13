@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,6 @@ import {
   Box,
   Button,
   TextField,
-  Checkbox,
   Paper,
   useTheme,
   Typography,
@@ -18,20 +17,12 @@ import {
 import { tokens } from "../theme";
 import LoginIcon from "@mui/icons-material/Login";
 
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
 
 function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const { email, password } = formData;
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
@@ -49,17 +40,6 @@ function Login() {
 
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const userData = {
-      email,
-      password,
-    };
-
-    dispatch(login(userData));
-  };
 
   if (isLoading) {
     return <Spinner />;
@@ -120,9 +100,6 @@ function Login() {
               handleChange,
               handleSubmit,
               isSubmitting,
-              setFieldValue,
-              dirty,
-              handleReset,
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Box

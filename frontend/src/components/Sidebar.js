@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -30,8 +30,8 @@ const Item = ({ title, to, icon, selected, setSelected, colors }) => {
 
 function Sidebar() {
   const { user } = useSelector((state) => state.auth);
-  const currentTheme = useSelector((state) => state.colorMode.mode);
-  const colors = tokens(currentTheme);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Tasks");
 
