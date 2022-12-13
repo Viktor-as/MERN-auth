@@ -11,10 +11,10 @@ import { Autocomplete } from "formik-mui";
 import * as yup from "yup";
 
 import PageHeading from "../components/PageHeading";
-import { createTask } from "../features/tasks/taskSlice";
+import { createTask, reset } from "../features/tasks/taskSlice";
 import { getUsers } from "../features/users/usersSlice";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,22 +32,21 @@ const initialValues = {
 };
 
 function AddTask() {
-  const [userList, setUserList] = useState([]);
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
 
   useEffect(() => {
-    if (!users.users) {
+    if (users.length === 0) {
       dispatch(getUsers());
     }
-  }, []);
+  }, [users.length, dispatch]);
 
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+  // const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = async (values, actions) => {
     try {
       actions.setSubmitting(true);
-      await dispatch(createTask(values));
+      await dispatch(createTask(values)).unwrap();
       actions.setSubmitting(false);
       toast.success("Task created successfully!", {
         position: "top-center",
@@ -62,8 +61,19 @@ function AddTask() {
       actions.resetForm({
         values: initialValues,
       });
-    } catch (err) {
-      console.error("Error:", err);
+    } catch (message) {
+      toast.error(message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      dispatch(reset());
     }
   };
 
@@ -92,16 +102,7 @@ function AddTask() {
           handleReset,
         }) => (
           <Form onSubmit={handleSubmit}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              gap="30px"
-              width="50%"
-              // gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
-            >
+            <Box display="flex" flexDirection="column" gap="30px" width="50%">
               <TextField
                 fullWidth
                 variant="filled"
@@ -113,7 +114,6 @@ function AddTask() {
                 name="task"
                 error={!!touched.task && !!errors.task}
                 helperText={touched.task && errors.task}
-                sx={{ gridColumn: "span 4" }}
                 multiline
                 rows={4}
               />
@@ -124,7 +124,6 @@ function AddTask() {
                 component={Autocomplete}
                 options={users}
                 getOptionLabel={(option) => option.name}
-                style={{ gridColumn: "span 2" }}
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>
                     <Checkbox

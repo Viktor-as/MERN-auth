@@ -14,6 +14,10 @@ import Sidebar from "./components/Sidebar";
 import { useMode } from "./theme";
 import AddTask from "./pages/AddTask";
 import EditTask from "./pages/EditTask";
+import EditAssignedTask from "./pages/EditAssignedTask";
+import UserList from "./pages/UserList";
+import AddUser from "./pages/AddUser";
+import Profile from "./pages/Profile";
 
 function App() {
   const currentTheme = useSelector((state) => state.colorMode.mode);
@@ -33,6 +37,13 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/add-task" element={<AddTask />} />
                 <Route path="/task/:id" element={<EditTask />} />
+                <Route
+                  path="/assigned-task/:id"
+                  element={<EditAssignedTask />}
+                />
+                <Route path="/user-list" element={<UserList />} />
+                <Route path="/add-user" element={<AddUser />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </div>
           </div>

@@ -60,8 +60,13 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        status: {
+          green: "#379237",
+          yellow: "#FFBF00",
+        },
       }
     : {
+        // Light theme:
         grey: {
           100: "#141414",
           200: "#292929",
@@ -76,7 +81,7 @@ export const tokens = (mode) => ({
         primary: {
           100: "#040509",
           200: "#080b12",
-          300: "#0c101b",
+          300: "#393E46",
           400: "#f2f0f0",
           500: "#141b2d",
           600: "#1F2A40",
@@ -117,6 +122,10 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+        status: {
+          green: "#82CD47",
+          yellow: "#FFBF00",
+        },
       }),
 });
 
@@ -130,35 +139,49 @@ export const themeSettings = (mode) => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[500],
+              main: colors.primary[200],
+              light: colors.primary[400],
+              dark: colors.primary[600],
             },
             secondary: {
               main: colors.greenAccent[500],
             },
             neutral: {
-              dark: colors.grey[700],
+              dark: colors.grey[600],
               main: colors.grey[500],
-              light: colors.grey[100],
+              light: colors.grey[400],
             },
             background: {
               default: colors.primary[500],
+            },
+            red: {
+              dark: colors.redAccent[600],
+              main: colors.redAccent[500],
+              light: colors.redAccent[400],
             },
           }
         : {
             // palette values for light mode
             primary: {
               main: colors.primary[100],
+              light: colors.primary[400],
+              dark: colors.primary[600],
             },
             secondary: {
               main: colors.greenAccent[500],
             },
             neutral: {
-              dark: colors.grey[700],
+              dark: colors.grey[400],
               main: colors.grey[500],
-              light: colors.grey[100],
+              light: colors.grey[600],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#e9e9e9",
+            },
+            red: {
+              dark: colors.redAccent[400],
+              main: colors.redAccent[500],
+              light: colors.redAccent[600],
             },
           }),
     },
@@ -189,6 +212,11 @@ export const themeSettings = (mode) => {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 14,
       },
+      button: {
+        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontWeight: 600,
+        fontSize: ".9rem",
+      },
     },
     components: {
       MuiButton: {
@@ -197,10 +225,17 @@ export const themeSettings = (mode) => {
             mode === "dark"
               ? {
                   backgroundColor: colors.greenAccent[500],
+                  color: colors.primary[500],
+                  "&:hover": {
+                    backgroundColor: colors.greenAccent[600],
+                  },
                 }
               : {
                   backgroundColor: colors.primary[500],
                   color: "white",
+                  "&:hover": {
+                    backgroundColor: colors.grey[300],
+                  },
                 },
         },
       },

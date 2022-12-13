@@ -11,6 +11,15 @@ const getTasks = asyncHandler(async (req, res) => {
   res.status(200).json(tasks);
 });
 
+//@desc Get assiigned tasks
+//@route Get /api/tasks/assigned-tasks
+//@access Private
+const getAssignedTasks = asyncHandler(async (req, res) => {
+  const tasks = await Task.find({ "users.id": req.user.id });
+
+  res.status(200).json(tasks);
+});
+
 //@desc Get Users
 //@route Get /api/tasks/users
 //@access Private
@@ -50,7 +59,7 @@ const setTask = asyncHandler(async (req, res) => {
 });
 
 //@desc Update tasks
-//@route PUT /api/tasks:id
+//@route PUT /api/tasks/:id
 //@access Private
 const updateTask = asyncHandler(async (req, res) => {
   const task = await Task.findById(req.params.id);
@@ -107,9 +116,7 @@ const deleteTask = asyncHandler(async (req, res) => {
   await Task.remove(task);
   // arba await task.remove();
 
-  res.status(200).json({
-    message: `Deleted task ${req.params.id}`,
-  });
+  res.status(200).json(task);
 });
 
 module.exports = {
@@ -118,4 +125,5 @@ module.exports = {
   updateTask,
   deleteTask,
   getUsers,
+  getAssignedTasks,
 };

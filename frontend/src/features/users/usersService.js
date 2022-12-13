@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/tasks/";
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "/api/tasks/"
+    : "http://localhost:5000/api/tasks/";
 
 // Get users
 const getUsers = async (token) => {

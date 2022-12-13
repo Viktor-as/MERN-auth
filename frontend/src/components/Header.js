@@ -23,7 +23,6 @@ function Header() {
   const currentTheme = useSelector((state) => state.colorMode.mode);
   const colors = tokens(currentTheme);
   const theme = useTheme();
-  console.log(theme.palette.mode);
 
   const onLogout = () => {
     dispatch(logout());
@@ -70,13 +69,21 @@ function Header() {
         </>
       ) : (
         <>
-          <Link to="/login">
-            <FaSignInAlt /> Login
-          </Link>
-
-          <Link to="/register">
-            <FaUser /> Register
-          </Link>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={currentTheme === "dark"}
+                  onChange={() => dispatch(toggleColorMode())}
+                  color="secondary"
+                />
+              }
+              label="Toggle Dark Theme"
+              sx={{
+                color: colors.grey[100],
+              }}
+            />
+          </FormGroup>
         </>
       )}
     </Box>

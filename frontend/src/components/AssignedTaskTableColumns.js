@@ -14,7 +14,7 @@ const EditTask = (id) => {
   const navigate = useNavigate();
   const editTaskFunc = useCallback(
     (id) => () => {
-      navigate(`/task/${id}`);
+      navigate(`/assigned-task/${id}`);
     },
     [navigate]
   );
@@ -24,7 +24,6 @@ const EditTask = (id) => {
 const GetUser = (userId) => {
   const { users } = useSelector((state) => state.users);
   const user = users.find((user) => user.id === userId);
-
   if (users.length > 0) {
     return user.name;
   } else {
@@ -36,7 +35,7 @@ const GetAssignedToUsers = (usersArray) => {
   return usersArray.map((user) => user.name).join(", ");
 };
 
-export const Columns = () => {
+export const AssignedTaskColumns = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
