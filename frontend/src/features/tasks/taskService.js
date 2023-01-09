@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.8.128:5000/api/tasks/";
-// process.env.NODE_ENV === "production"
-//   ? "/api/tasks/"
-//   : "http://localhost:5000/api/tasks/";
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "/api/tasks/"
+    : "http://192.168.8.128:5000/api/tasks/";
 
 // Create new task
 const createTask = async (taskData, token) => {
