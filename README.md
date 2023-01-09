@@ -11,5 +11,3 @@ This MERN stack app is designed for teams to create tasks, assign them to team m
 - Tasks - users can create and view tasks assigned to them, update the completion status.
 - Users - in the application you can see the list of users, add new users, edit your profile data.
 - Design - used Material UI v5 library to create professional design. The app can choose between a light or dark design mode.
-
-#### Project is not completely finished yet.
