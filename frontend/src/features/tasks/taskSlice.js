@@ -6,7 +6,6 @@ const initialState = {
   assignedTasks: [],
   isError: false,
   isReceivedSuccessfully: false,
-  // isSuccess: false,
   isLoading: false,
   message: "",
   isDeletedSuccessfully: false,
@@ -117,7 +116,17 @@ export const taskSlice = createSlice({
       ...state,
       isError: false,
       isReceivedSuccessfully: false,
-      // isSuccess: false,
+      isLoading: false,
+      message: "",
+      isDeletedSuccessfully: false,
+      isUpdatedSuccessfully: false,
+      isCreatedSuccessfully: false,
+    }),
+    fullReset: () => ({
+      tasks: [],
+      assignedTasks: [],
+      isError: false,
+      isReceivedSuccessfully: false,
       isLoading: false,
       message: "",
       isDeletedSuccessfully: false,
@@ -134,6 +143,11 @@ export const taskSlice = createSlice({
         state.isLoading = false;
         state.isCreatedSuccessfully = true;
         state.tasks.push(action.payload);
+        if (
+          action.payload.users.find((user) => user.id === action.payload.user)
+        ) {
+          state.assignedTasks.push(action.payload);
+        }
       })
       .addCase(createTask.rejected, (state, action) => {
         state.isLoading = false;
@@ -145,7 +159,6 @@ export const taskSlice = createSlice({
       })
       .addCase(getTasks.fulfilled, (state, action) => {
         state.isLoading = false;
-        // state.isSuccess = true;
         state.isReceivedSuccessfully = true;
         state.tasks = action.payload;
       })
@@ -159,7 +172,6 @@ export const taskSlice = createSlice({
       })
       .addCase(getAssignedTasks.fulfilled, (state, action) => {
         state.isLoading = false;
-        // state.isSuccess = true;
         state.isReceivedSuccessfully = true;
         state.assignedTasks = action.payload;
       })
@@ -174,9 +186,11 @@ export const taskSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isDeletedSuccessfully = true;
-        console.log("action payload", action.payload);
         state.tasks = state.tasks.filter(
-          (task) => task._id !== action.payload.id
+          (task) => task._id !== action.payload._id
+        );
+        state.assignedTasks = state.assignedTasks.filter(
+          (task) => task._id !== action.payload._id
         );
       })
       .addCase(deleteTask.rejected, (state, action) => {
@@ -190,10 +204,18 @@ export const taskSlice = createSlice({
       .addCase(updateTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isUpdatedSuccessfully = true;
-        const index = state.tasks.findIndex(
+        const indexOfTask = state.tasks.findIndex(
           (ele) => ele._id === action.payload._id
         );
-        state.tasks.splice(index, 1, action.payload);
+        if (indexOfTask > -1) {
+          state.tasks.splice(indexOfTask, 1, action.payload);
+        }
+        const indexOfAssignedTask = state.assignedTasks.findIndex(
+          (ele) => ele._id === action.payload._id
+        );
+        if (indexOfAssignedTask > -1) {
+          state.assignedTasks.splice(indexOfAssignedTask, 1, action.payload);
+        }
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.isLoading = false;
@@ -203,5 +225,5 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { reset } = taskSlice.actions;
+export const { reset, fullReset } = taskSlice.actions;
 export default taskSlice.reducer;

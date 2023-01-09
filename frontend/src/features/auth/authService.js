@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL =
-  process.env.NODE_ENV === "production"
-    ? "/api/users/"
-    : "http://localhost:5000/api/users/";
+const API_URL = "http://192.168.8.128:5000/api/users/";
+// process.env.NODE_ENV === "production"
+//   ? "/api/users/"
+//   : "http://localhost:5000/api/users/";
 
 // Register user
 const register = async (userData) => {

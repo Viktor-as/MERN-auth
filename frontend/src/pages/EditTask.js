@@ -47,16 +47,14 @@ export default function EditTask() {
     useSelector((state) => state.tasks);
   const { users } = useSelector((state) => state.users);
   const taskToEdit = tasks.find((task) => task._id === id);
-  const createdAt = tasks.length > 0 ? formatDate(taskToEdit.createdAt) : "";
-  const updatedAt = tasks.length > 0 ? formatDate(taskToEdit.updatedAt) : "";
-  const deadline = tasks.length > 0 ? formatDate(taskToEdit.deadline) : "";
+  const createdAt = taskToEdit ? formatDate(taskToEdit.createdAt) : "";
+  const updatedAt = taskToEdit ? formatDate(taskToEdit.updatedAt) : "";
+  const deadline = taskToEdit ? formatDate(taskToEdit.deadline) : "";
   const [editMode, setEditMode] = useState(false);
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   // Delete dialog state
   const [open, setOpen] = useState(false);
-
-  console.log("taskToEdit", taskToEdit);
 
   useEffect(() => {
     if (!user) {
@@ -193,11 +191,11 @@ export default function EditTask() {
             <Typography variant="body1" mt=".3rem">
               {taskToEdit?.task}
             </Typography>
-            <Box mt="4rem" display="flex" gap="30px">
+            <Box mt="4rem" display="flex" gap="30px" flexWrap="wrap">
               <Box>
                 <Typography variant="h5">Created by</Typography>
                 <Typography variant="body1" mt=".3rem">
-                  {tasks.length > 0 && users.length > 0
+                  {taskToEdit && users.length > 0
                     ? users.find((user) => user.id === taskToEdit.user).name
                     : ""}
                 </Typography>
@@ -205,19 +203,19 @@ export default function EditTask() {
               <Box>
                 <Typography variant="h5">Creation date</Typography>
                 <Typography variant="body1" mt=".3rem">
-                  {tasks.length > 0 ? createdAt : ""}
+                  {taskToEdit ? createdAt : ""}
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="h5">Last time updated</Typography>
                 <Typography variant="body1" mt=".3rem">
-                  {tasks.length > 0 ? updatedAt : ""}
+                  {taskToEdit ? updatedAt : ""}
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="h5">Assigned to</Typography>
                 <Typography variant="body1" mt=".3rem">
-                  {tasks.length > 0
+                  {taskToEdit
                     ? taskToEdit.users.map((user) => user.name).join(", ")
                     : ""}
                 </Typography>
@@ -225,7 +223,7 @@ export default function EditTask() {
               <Box>
                 <Typography variant="h5">Deadline</Typography>
                 <Typography variant="body1" mt=".3rem">
-                  {tasks.length > 0 ? deadline : ""}
+                  {taskToEdit ? deadline : ""}
                 </Typography>
               </Box>
             </Box>
@@ -250,13 +248,10 @@ export default function EditTask() {
                 <Typography sx={{ ml: "5px" }}>{taskToEdit?.status}</Typography>
               </Box>
 
-              <Box display="flex" gap="1rem">
+              <Box display="flex" gap="1rem" flexWrap="wrap" mt="2rem">
                 <Button
                   variant="contained"
                   color="secondary"
-                  sx={{
-                    mt: "1rem",
-                  }}
                   onClick={() => setEditMode(true)}
                 >
                   Edit task
@@ -264,10 +259,6 @@ export default function EditTask() {
                 <Button
                   variant="contained"
                   color="secondary"
-                  sx={{
-                    mt: "1rem",
-                    // bgcolor: "primary.main",
-                  }}
                   onClick={handleClickOpen}
                 >
                   Delete this task
@@ -275,9 +266,6 @@ export default function EditTask() {
                 <Button
                   variant="contained"
                   color="secondary"
-                  sx={{
-                    mt: "1rem",
-                  }}
                   onClick={() => navigate("/")}
                 >
                   Go back
@@ -306,7 +294,7 @@ export default function EditTask() {
                   display="flex"
                   flexDirection="column"
                   gap="30px"
-                  width="50%"
+                  width={{ xs: "100%", sm: "50%" }}
                 >
                   <MuiTextField
                     fullWidth

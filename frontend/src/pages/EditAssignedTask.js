@@ -12,7 +12,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import PageHeading from "../components/PageHeading";
 import Spinner from "../components/Spinner";
-import { getTasks, updateTask, reset } from "../features/tasks/taskSlice";
+import {
+  getAssignedTasks,
+  updateTask,
+  reset,
+} from "../features/tasks/taskSlice";
 import { getUsers } from "../features/users/usersSlice";
 import { tokens } from "../theme";
 
@@ -23,17 +27,15 @@ export default function EditAssignedTask() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { user } = useSelector((state) => state.auth);
-  const { tasks, isLoading, isError, message } = useSelector(
+  const { assignedTasks, isLoading, isError, message } = useSelector(
     (state) => state.tasks
   );
   const { users } = useSelector((state) => state.users);
-  const taskToEdit = tasks.find((task) => task._id === id);
-  const createdAt = tasks.length > 0 ? formatDate(taskToEdit.createdAt) : "";
-  const updatedAt = tasks.length > 0 ? formatDate(taskToEdit.updatedAt) : "";
-  const deadline = tasks.length > 0 ? formatDate(taskToEdit.deadline) : "";
+  const taskToEdit = assignedTasks.find((task) => task._id === id);
+  const createdAt = taskToEdit ? formatDate(taskToEdit.createdAt) : "";
+  const updatedAt = taskToEdit ? formatDate(taskToEdit.updatedAt) : "";
+  const deadline = taskToEdit ? formatDate(taskToEdit.deadline) : "";
   const [editMode, setEditMode] = useState(false);
-
-  console.log("taskToEdit", taskToEdit);
 
   useEffect(() => {
     if (!user) {
@@ -44,8 +46,8 @@ export default function EditAssignedTask() {
       dispatch(getUsers());
     }
 
-    if (user && tasks.length === 0) {
-      dispatch(getTasks());
+    if (user && assignedTasks.length === 0) {
+      dispatch(getAssignedTasks());
     }
 
     return () => {
@@ -123,11 +125,11 @@ export default function EditAssignedTask() {
         <Typography variant="body1" mt=".3rem">
           {taskToEdit?.task}
         </Typography>
-        <Box mt="4rem" display="flex" gap="30px">
+        <Box mt="4rem" display="flex" gap="30px" flexWrap="wrap">
           <Box>
             <Typography variant="h5">Created by</Typography>
             <Typography variant="body1" mt=".3rem">
-              {tasks.length > 0 && users.length > 0
+              {taskToEdit && users.length > 0
                 ? users.find((user) => user.id === taskToEdit.user).name
                 : ""}
             </Typography>
@@ -135,19 +137,19 @@ export default function EditAssignedTask() {
           <Box>
             <Typography variant="h5">Creation date</Typography>
             <Typography variant="body1" mt=".3rem">
-              {tasks.length > 0 ? createdAt : ""}
+              {taskToEdit ? createdAt : ""}
             </Typography>
           </Box>
           <Box>
             <Typography variant="h5">Last time updated</Typography>
             <Typography variant="body1" mt=".3rem">
-              {tasks.length > 0 ? updatedAt : ""}
+              {taskToEdit ? updatedAt : ""}
             </Typography>
           </Box>
           <Box>
             <Typography variant="h5">Assigned to</Typography>
             <Typography variant="body1" mt=".3rem">
-              {tasks.length > 0
+              {taskToEdit
                 ? taskToEdit.users.map((user) => user.name).join(", ")
                 : ""}
             </Typography>
@@ -155,7 +157,7 @@ export default function EditAssignedTask() {
           <Box>
             <Typography variant="h5">Deadline</Typography>
             <Typography variant="body1" mt=".3rem">
-              {tasks.length > 0 ? deadline : ""}
+              {taskToEdit ? deadline : ""}
             </Typography>
           </Box>
         </Box>
@@ -180,13 +182,10 @@ export default function EditAssignedTask() {
             <Typography sx={{ ml: "5px" }}>{taskToEdit?.status}</Typography>
           </Box>
           {!editMode && (
-            <Box display="flex" gap="1rem">
+            <Box display="flex" gap="1rem" mt="2rem">
               <Button
                 variant="contained"
                 color="secondary"
-                sx={{
-                  mt: "1rem",
-                }}
                 onClick={() => setEditMode(true)}
               >
                 Edit status
@@ -194,9 +193,6 @@ export default function EditAssignedTask() {
               <Button
                 variant="contained"
                 color="secondary"
-                sx={{
-                  mt: "1rem",
-                }}
                 onClick={() => navigate("/")}
               >
                 Go back
@@ -212,7 +208,7 @@ export default function EditAssignedTask() {
                     display="flex"
                     flexDirection="column"
                     gap="30px"
-                    width="50%"
+                    width={{ xs: "100%", sm: "50%" }}
                   >
                     <Field
                       component={TextField}

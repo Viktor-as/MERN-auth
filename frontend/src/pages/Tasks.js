@@ -11,6 +11,7 @@ import TabPanel from "../components/TabPanel";
 import { Box, useTheme, Tabs, Tab } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../theme";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getTasks, getAssignedTasks, reset } from "../features/tasks/taskSlice";
 import { getUsers } from "../features/users/usersSlice";
@@ -33,6 +34,7 @@ function Tasks() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [tabValue, setTabValue] = useState(0);
+  const isNonMobile = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
     if (isError) {
@@ -67,7 +69,7 @@ function Tasks() {
 
   return (
     <>
-      <Box m="40px">
+      <Box m={isNonMobile ? "40px" : "40px 20px"}>
         <PageHeading title="TASKS" subtitle="Your tasks list" />
         <Box sx={{ width: "100%" }}>
           <Tabs
@@ -76,6 +78,12 @@ function Tasks() {
             textColor="secondary"
             indicatorColor="secondary"
             aria-label="Tasks tabs"
+            TabIndicatorProps={{ sx: { display: { xs: "none", sm: "block" } } }}
+            sx={{
+              "& .MuiTabs-flexContainer": {
+                flexWrap: "wrap",
+              },
+            }}
           >
             <Tab label="Tasks assigned to you" {...a11yProps(0)} />
             <Tab label="Tasks created by you" {...a11yProps(1)} />

@@ -68,13 +68,19 @@ function Login() {
   }
 
   return (
-    <Box display="flex" alignItems="center" minHeight="90vh">
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="90vh"
+    >
       <Paper
         elevation={10}
         sx={{
-          minHeight: "35rem",
-          margin: "3rem auto",
-          minWidth: "30rem",
+          minHeight: { xs: "50vh", sm: "35rem" },
+          m: "3rem",
+          p: { xs: "2rem", sm: "0" },
+          minWidth: { xs: "90vw", sm: "30rem" },
           backgroundColor: colors.primary[400],
           display: "flex",
           flexDirection: "column",
@@ -86,7 +92,7 @@ function Login() {
           <LoginIcon sx={{ fontSize: 30 }} />
           <Typography variant="h1">Login</Typography>
         </Box>
-        <Box width="60%" mt="2rem">
+        <Box width={{ xs: "100%", sm: "60%" }} mt="2rem">
           <Formik
             onSubmit={handleFormSubmit}
             initialValues={initialValues}

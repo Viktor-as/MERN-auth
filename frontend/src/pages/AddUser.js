@@ -6,6 +6,7 @@ function AddUser() {
       sx={{
         width: "100%",
         height: "100%",
+        minHeight: "300px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

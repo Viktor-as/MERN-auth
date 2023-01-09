@@ -45,6 +45,7 @@ export const AssignedTaskColumns = () => {
       headerName: "Task",
       flex: 2,
       cellClassName: "name-column--cell",
+      minWidth: 200,
     },
     {
       field: "createdAt",
@@ -58,12 +59,14 @@ export const AssignedTaskColumns = () => {
       field: "user",
       headerName: "Created by",
       flex: 1,
+      minWidth: 100,
       valueGetter: ({ value }) => GetUser(value),
     },
     {
       field: "users",
       headerName: "Assigned to",
       flex: 1,
+      minWidth: 100,
       valueGetter: ({ value }) => GetAssignedToUsers(value),
     },
     {
@@ -76,6 +79,7 @@ export const AssignedTaskColumns = () => {
       field: "status",
       headerName: "Status",
       flex: 1,
+      minWidth: 150,
       renderCell: ({ row: { status } }) => {
         return (
           <Box

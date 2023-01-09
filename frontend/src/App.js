@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -21,6 +21,7 @@ import Profile from "./pages/Profile";
 
 function App() {
   const currentTheme = useSelector((state) => state.colorMode.mode);
+  const [isToggled, setIsToggled] = useState(false);
 
   return (
     <>
@@ -28,9 +29,9 @@ function App() {
         <CssBaseline />
         <BrowserRouter>
           <div className="app">
-            <Sidebar />
+            <Sidebar isToggled={isToggled} setIsToggled={setIsToggled} />
             <div className="app_rightside">
-              <Header />
+              <Header isToggled={isToggled} setIsToggled={setIsToggled} />
               <Routes>
                 <Route path="/" element={<Tasks />} />
                 <Route path="/login" element={<Login />} />

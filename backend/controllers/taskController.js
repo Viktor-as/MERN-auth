@@ -76,8 +76,11 @@ const updateTask = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  //Make sure tasks belong to that user
-  if (task.user.toString() !== req.user.id) {
+  //Make sure tasks belong to that user or are assigned to them
+  if (
+    task.user.toString() !== req.user.id &&
+    task.users.find((user) => user.id === req.user.id) === undefined
+  ) {
     res.status(401);
     throw new Error("User not authorized for this task");
   }

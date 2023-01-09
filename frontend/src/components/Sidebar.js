@@ -1,25 +1,40 @@
 import { useState } from "react";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import "react-pro-sidebar/dist/css/styles.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import "react-pro-sidebar/dist/css/styles.css";
+
 import { tokens } from "../theme";
+
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import SettingsIcon from "@mui/icons-material/Settings";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CloseIcon from "@mui/icons-material/Close";
 
-const Item = ({ title, to, icon, selected, setSelected, colors }) => {
+const Item = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+  colors,
+  setIsToggled,
+}) => {
   return (
     <MenuItem
       active={selected === title}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => {
+        setSelected(title);
+        setIsToggled(false);
+      }}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -28,12 +43,13 @@ const Item = ({ title, to, icon, selected, setSelected, colors }) => {
   );
 };
 
-function Sidebar() {
+function Sidebar(props) {
   const { user } = useSelector((state) => state.auth);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Tasks");
+  const isNonMobile = useMediaQuery("(min-width:600px)");
 
   return (
     user && (
@@ -57,34 +73,54 @@ function Sidebar() {
           },
         }}
       >
-        <ProSidebar collapsed={isCollapsed}>
+        <ProSidebar
+          collapsed={isCollapsed}
+          breakPoint="sm"
+          toggled={props.isToggled}
+        >
           <Menu iconShape="square">
-            {/* LOGO AND MENU ICON */}
-            <MenuItem
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-              style={{
-                margin: "10px 0 20px 0",
-                color: colors.grey[100],
-              }}
-            >
-              {!isCollapsed && (
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  ml="15px"
-                >
-                  <Typography variant="h3" color={colors.grey[100]}>
-                    Navigation
-                  </Typography>
+            {/* Collapsed menu icon */}
+            {isCollapsed && (
+              <Box
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "10px 0 20px 0",
+                }}
+              >
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
+                </IconButton>
+              </Box>
+            )}
+            {/* Not collapsed sidebar top */}
+            {!isCollapsed && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                m="10px 0 20px 0"
+                p="0 20px"
+                width="100%"
+              >
+                <Typography variant="h3" color={colors.grey[100]}>
+                  Navigation
+                </Typography>
+                {isNonMobile ? (
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcon />
                   </IconButton>
-                </Box>
-              )}
-            </MenuItem>
+                ) : (
+                  <IconButton onClick={() => props.setIsToggled(false)}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Box>
+            )}
 
+            {/* Sidebar content */}
             {!isCollapsed && (
               <Box mb="25px">
                 <Box display="flex" justifyContent="center" alignItems="center">
@@ -114,7 +150,6 @@ function Sidebar() {
                 </Box>
               </Box>
             )}
-
             <Box paddingLeft={isCollapsed ? undefined : "10%"}>
               <Typography
                 variant="h6"
@@ -130,6 +165,7 @@ function Sidebar() {
                 selected={selected}
                 setSelected={setSelected}
                 colors={colors}
+                setIsToggled={props.setIsToggled}
               />
               <Item
                 title="Add Task"
@@ -138,6 +174,7 @@ function Sidebar() {
                 selected={selected}
                 setSelected={setSelected}
                 colors={colors}
+                setIsToggled={props.setIsToggled}
               />
               <Typography
                 variant="h6"
@@ -153,6 +190,7 @@ function Sidebar() {
                 selected={selected}
                 setSelected={setSelected}
                 colors={colors}
+                setIsToggled={props.setIsToggled}
               />
               <Item
                 title="Add User"
@@ -161,6 +199,7 @@ function Sidebar() {
                 selected={selected}
                 setSelected={setSelected}
                 colors={colors}
+                setIsToggled={props.setIsToggled}
               />
 
               <Typography
@@ -177,6 +216,7 @@ function Sidebar() {
                 selected={selected}
                 setSelected={setSelected}
                 colors={colors}
+                setIsToggled={props.setIsToggled}
               />
             </Box>
           </Menu>

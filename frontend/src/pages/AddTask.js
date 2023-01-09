@@ -1,5 +1,4 @@
 import { Box, Button, TextField, Checkbox } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -40,8 +39,6 @@ function AddTask() {
       dispatch(getUsers());
     }
   }, [users.length, dispatch]);
-
-  // const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = async (values, actions) => {
     try {
@@ -102,7 +99,12 @@ function AddTask() {
           handleReset,
         }) => (
           <Form onSubmit={handleSubmit}>
-            <Box display="flex" flexDirection="column" gap="30px" width="50%">
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap="30px"
+              width={{ xs: "100%", sm: "50%" }}
+            >
               <TextField
                 fullWidth
                 variant="filled"
